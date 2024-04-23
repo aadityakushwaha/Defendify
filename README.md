@@ -1,3 +1,4 @@
+## PPT Link: https://drive.google.com/file/d/10NQvjTJXIC8f947l5TuPBlZtvX0P0Q9z/view?usp=drive_link
 # Defendify
 
 Defendify is a free and open source platform used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments
