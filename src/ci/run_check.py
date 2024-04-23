@@ -495,19 +495,6 @@ def runTestToolCheck(moduleName):
 
 
 def runValgrind(moduleName):
-    """
-    Execute all tests with valgrind tool in order to check memory leaks
-    in the library code.
-
-    Args:
-        - moduleName: Library to be analyzed using valgrind tool.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     utils.printHeader(moduleName=moduleName,
                       headerKey="valgrind")
     tests = []
