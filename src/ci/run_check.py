@@ -1,12 +1,3 @@
-"""
-Copyright (C) 2015, Wazuh Inc.
-March 28, 2022.
-
-This program is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public
-License (version 2) as published by the FSF - Free Software
-Foundation.
-"""
 
 import glob
 import os
@@ -19,18 +10,6 @@ from ci import build_tools
 
 
 def checkCoverage(output):
-    """
-    Check the coverage for a library being analyzed.
-
-    Args:
-        - output(str): Message to be shown in the stdout.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     reLines = re.search("lines.*(% ).*(lines)", str(output))
     reFunctions = re.search("functions.*%", str(output))
     if reLines:
@@ -104,19 +83,6 @@ def runASAN(moduleName, testToolConfig):
 
 
 def runAStyleCheck(moduleName):
-    """
-    Execute AStyle coding style analysis for the library
-    code failing when one or more files need to be modified.
-
-    Args:
-        - moduleName: Library to be analyzed using AStyle coding style
-                      analysis tool.
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     foldersToScan = utils.getFoldersToAStyle(moduleName=moduleName)
     astyleCommand = "astyle --options=ci/input/astyle.config --dry-run \
                     {}".format(foldersToScan)
@@ -148,20 +114,6 @@ def runAStyleCheck(moduleName):
 
 
 def runAStyleFormat(moduleName):
-    """
-    Execute AStyle coding style analysis tool for the library code
-    formatting all needed files.
-
-    Args:
-        - moduleName: Library to be formated using AStyle coding style
-                      analysis tool.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     foldersToScan = utils.getFoldersToAStyle(moduleName=moduleName)
     astyleCommand = "astyle --options=ci/input/astyle.config {}"\
                     .format(foldersToScan)
@@ -181,18 +133,6 @@ def runAStyleFormat(moduleName):
 
 
 def runCoverage(moduleName):
-    """
-    Execute code coverage for a library unit tests.
-
-    Args:
-        - moduleName: Library to be analyzed using gcov and lcov tools.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     currentDir = utils.moduleDirPath(moduleName=moduleName)
     if moduleName == "shared_modules/utils":
         reportFolder = os.path.join(moduleName,
@@ -257,18 +197,6 @@ def runCoverage(moduleName):
 
 
 def runCppCheck(moduleName):
-    """
-    Execute cppcheck static analysis in the library code.
-
-    Args:
-        - moduleName: Library to be analyzed using cppcheck static analysis tool.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     utils.printHeader(moduleName=moduleName,
                       headerKey="cppcheck")
 
@@ -291,17 +219,6 @@ def runCppCheck(moduleName):
 
 
 def runReadyToReview(moduleName, clean=False, target="agent"):
-    """
-    Executes all needed checks for a library in order to create a PR.
-
-    Args:
-        - moduleName: Library to be built and analyzed.
-        - clean: Delete logs.
-        - target: Build type. <agent, winagent, server>
-
-    Returns:
-        - None
-    """
     utils.printHeader(moduleName=moduleName,
                       headerKey="rtr")
 
@@ -364,19 +281,6 @@ def runReadyToReview(moduleName, clean=False, target="agent"):
 
 
 def runScanBuild(targetName):
-    """
-    Execute scan-build for a defined target.
-
-    Args:
-        - targetName: Target to be analyzed using scan-build analysis tool.
-                      <agent, server, winagent>
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     utils.printHeader(moduleName=targetName,
                       headerKey="scanbuild")
     build_tools.cleanAll()
@@ -421,20 +325,6 @@ def runScanBuild(targetName):
 
 
 def runTestTool(moduleName, testToolCommand, element):
-    """
-    Execute test tool for a module with a configuration passed by parameters.
-
-    Args:
-        - moduleName(str): Library to be built and analyzed.
-        - testToolCommand(str): Literal command to be executed.
-        - element(map): Test tool configuration.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     utils.printHeader(moduleName="TESTTOOL",
                       headerKey="testtool")
     utils.printInfo(msg=testToolCommand)
@@ -470,20 +360,7 @@ def runTestTool(moduleName, testToolCommand, element):
 
 
 def runTestToolForWindows(moduleName, testToolConfig):
-    """
-    Execute test tool for a module with a configuration passed by parameters
-    for Windows OS.
 
-    Args:
-        - moduleName(str): Library to be built and analyzed.
-        - testToolConfig(map): Test tool configuration.
-
-    Returns:
-        - None
-
-    Raises:
-        - None
-    """
     utils.printHeader(moduleName, headerKey="wintesttool")
     winModuleName = "win" + moduleName
     module = testToolConfig[winModuleName]
@@ -521,18 +398,6 @@ def runTestToolForWindows(moduleName, testToolConfig):
 
 
 def runTests(moduleName):
-    """
-    Execute library tests.
-
-    Args:
-        - moduleName: Library representing the tests to be executed.
-
-    Returns:
-        - None
-
-    Raises:
-        - ValueError: Raises an exception when fails for some reason.
-    """
     utils.printHeader(moduleName=moduleName,
                       headerKey="tests")
     tests = []
@@ -603,19 +468,6 @@ def runTests(moduleName):
 
 
 def runTestToolCheck(moduleName):
-    """
-    Results are taken in JSON format after running the test tool
-    and validated using pytest.
-
-    Args:
-        - moduleName: Library to analyze test tool results using pytest tool.
-
-    Returns:
-        - None
-
-    Raises:
-        - CalledProcessError: Raises an exception when fails some test.
-    """
     path = os.path.join(utils.currentPath(),
                         "tests")
     pathResult = os.path.join(path,
